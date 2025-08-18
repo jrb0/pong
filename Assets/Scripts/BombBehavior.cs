@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class BombBehavior : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody2D rb;
-    public float speed = 15f; // Speed of the ball
+    public float speed = 10f; // Speed of the ball
     public Vector2 velocity = Vector2.zero; // Initial velocity, not used in this script
     public static event Action OnCollide;
     void Start()
@@ -20,8 +20,6 @@ public class Ball : MonoBehaviour
         Vector2 direction = new Vector2(xVelocity, yVelocity); // Normalize to ensure consistent speed
         rb.linearVelocity = direction.normalized * speed; // Use 'velocity' for Rigidbody2D
         velocity = rb.linearVelocity; // Store the initial velocity
-
-        Debug.Log("Initial velocity: " + rb.linearVelocity);
     }
 
     void Update()
@@ -34,9 +32,9 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Destroy(gameObject);
-            OnCollide.Invoke();        
-         }
-        ; 
+            OnCollide.Invoke();
+        }
+        ;
         Debug.Log("Incoming velocity: " + rb.linearVelocity);
 
         if (collision.contactCount == 0) return;
@@ -52,6 +50,4 @@ public class Ball : MonoBehaviour
 
         Debug.Log("Reflected velocity: " + rb.linearVelocity);
     }
-
-
 }
